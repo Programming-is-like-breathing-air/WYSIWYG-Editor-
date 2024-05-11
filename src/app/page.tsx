@@ -12,8 +12,8 @@ import {ListPlugin} from "@lexical/react/LexicalListPlugin";
 import {MarkdownShortcutPlugin} from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import {TRANSFORMERS} from "@lexical/markdown";
 
-// import TreeViewPlugin from "@/components/plugins/TreeViewPlugin";
-// import ToolbarPlugin from "@/components/plugins/ToolbarPlugin";
+import TreeViewPlugin from "@/components/plugins/TreeViewPlugin";
+import ToolbarPlugin from "@/components/plugins/ToolbarPlugin";
 // import ListMaxIndentLevelPlugin from "@/components/plugins/ListMaxIndentLevelPlugin";
 // import CodeHighlightPlugin from "@/components/plugins/CodeHighlightPlugin";
 // import AutoLinkPlugin from "@/components/plugins/AutoLinkPlugin";
@@ -227,10 +227,13 @@ export default function Editor() {
                 </div>
             </header>
             <main
-                className="flex mx-auto overflow-hidden my-5  max-w-screen-lg rounded-xl border border-gray-300 bg-white text-left font-normal leading-5 text-gray-900">
-                <Card className="w-full max-w-8xl min-h-[80vh] flex flex-col">
+                className="flex mx-auto overflow-hidden my-5 max-w-screen-xl rounded  border-gray-300 bg-white text-left font-normal leading-5 text-gray-900">
+
+                {/*bg-gray-100 p-2 rounded min-h-[10vh]*/}
+                <Card className="w-full max-w-5xl min-h-[80vh] min-w-[120vh] ">
                     <CardHeader>
                         {/*<CardTitle>Lexical Text Editor</CardTitle>*/}
+
                         <ToggleGroup type="multiple" variant="outline">
                             <ToggleGroupItem value="bold" aria-label="Toggle bold">
                                 <FontBoldIcon className="h-4 w-4"/>
@@ -247,51 +250,27 @@ export default function Editor() {
                     <CardContent className="flex-1 overflow-auto">
                         <LexicalComposer initialConfig={editorConfig}>
                             <div className="editor-container p-4">
+                                <ToolbarPlugin/>
                                 <RichTextPlugin
                                     contentEditable={<ContentEditable
                                         className="editor-input min-h-[150px] p-2 outline-none"/>}
                                     placeholder={<Placeholder/>}
                                     ErrorBoundary={LexicalErrorBoundary}
                                 />
+                                <p className="font-bold">Editor State (Serialized):</p>
                                 <HistoryPlugin/>
                                 <AutoFocusPlugin/>
+                                <TreeViewPlugin/>
                                 <MyOnChangePlugin onChange={onChange}/>
                             </div>
                         </LexicalComposer>
                     </CardContent>
-
                     <CardFooter>
                         <div className="w-full">
                             <p className="font-bold">Editor State (Serialized):</p>
-                            <pre
-                                className="bg-gray-100 p-2 rounded min-h-[10vh]">{editorState || 'The editor state will appear here...'}</pre>
+                            {/*<pre className="bg-gray-100 p-2 rounded min-h-[10vh]">{editorState || 'The editor state will appear here...'}</pre>*/}
                         </div>
                     </CardFooter>
-
-                    <LexicalComposer initialConfig={editorConfig}>
-                        <div className="editor-container">
-                            {/*<ToolbarPlugin/>*/}
-                            <div className="editor-inner">
-                                <RichTextPlugin
-                                    contentEditable={<ContentEditable className="editor-input"/>}
-                                    placeholder={<Placeholder/>}
-                                    ErrorBoundary={LexicalErrorBoundary}
-                                />
-                                {/*<HistoryPlugin/>*/}
-                                {/*<ListPlugin/>*/}
-                                {/*<LinkPlugin/>*/}
-                                {/*<AutoFocusPlugin/>*/}
-
-
-                                {/*<TreeViewPlugin/>*/}
-                                {/*<CodeHighlightPlugin/>*/}
-                                {/*<AutoLinkPlugin/>*/}
-                                {/*<ListMaxIndentLevelPlugin maxDepth={7}/>*/}
-
-                                {/*<MarkdownShortcutPlugin transformers={TRANSFORMERS}/>*/}
-                            </div>
-                        </div>
-                    </LexicalComposer>
                 </Card>
             </main>
         </div>
