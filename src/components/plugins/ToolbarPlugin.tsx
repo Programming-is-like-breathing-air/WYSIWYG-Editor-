@@ -19,6 +19,14 @@ import {
     UNDO_COMMAND,
 } from 'lexical';
 import {useCallback, useEffect, useRef, useState} from 'react';
+import {ToggleGroupItem} from "@/components/ui/toggle-group";
+import {ToggleGroup} from "@/components/ui/toggle-group";
+
+import {
+    FontBoldIcon,
+    FontItalicIcon,
+    UnderlineIcon,
+} from "@radix-ui/react-icons"
 
 const LowPriority = 1;
 
@@ -90,7 +98,7 @@ export default function ToolbarPlugin() {
                 }}
                 className="toolbar-item spaced"
                 aria-label="Undo">
-                <i className="format undo" />
+                <i className="format undo" />HHHHHH
             </button>
             <button
                 disabled={!canRedo}
@@ -109,6 +117,11 @@ export default function ToolbarPlugin() {
                 className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
                 aria-label="Format Bold">
                 <i className="format bold" />
+                <ToggleGroup type="multiple" variant="outline">
+                <ToggleGroupItem value="bold" aria-label="Toggle bold">
+                    <FontBoldIcon className="h-4 w-4"/>
+                </ToggleGroupItem>
+                </ToggleGroup>
             </button>
             <button
                 onClick={() => {
