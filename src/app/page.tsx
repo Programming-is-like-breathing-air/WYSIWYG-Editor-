@@ -228,24 +228,22 @@ export default function Editor() {
             </header>
             <main
                 className="flex mx-auto overflow-hidden my-5 max-w-screen-xl rounded  border-gray-300 bg-white text-left font-normal leading-5 text-gray-900">
-
                 {/*bg-gray-100 p-2 rounded min-h-[10vh]*/}
                 <Card className="w-full max-w-5xl min-h-[80vh] min-w-[120vh] ">
-                    <CardHeader>
-                        {/*<CardTitle>Lexical Text Editor</CardTitle>*/}
-
-                        <ToggleGroup type="multiple" variant="outline">
-                            <ToggleGroupItem value="bold" aria-label="Toggle bold">
-                                <FontBoldIcon className="h-4 w-4"/>
-                            </ToggleGroupItem>
-                            <ToggleGroupItem value="italic" aria-label="Toggle italic">
-                                <FontItalicIcon className="h-4 w-4"/>
-                            </ToggleGroupItem>
-                            <ToggleGroupItem value="strikethrough" aria-label="Toggle strikethrough">
-                                <UnderlineIcon className="h-4 w-4"/>
-                            </ToggleGroupItem>
-                        </ToggleGroup>
-                    </CardHeader>
+                    {/*<CardHeader>*/}
+                    {/*    /!*<CardTitle>Lexical Text Editor</CardTitle>*!/*/}
+                    {/*    <ToggleGroup type="multiple" variant="outline">*/}
+                    {/*        <ToggleGroupItem value="bold" aria-label="Toggle bold">*/}
+                    {/*            <FontBoldIcon className="h-4 w-4"/>*/}
+                    {/*        </ToggleGroupItem>*/}
+                    {/*        <ToggleGroupItem value="italic" aria-label="Toggle italic">*/}
+                    {/*            <FontItalicIcon className="h-4 w-4"/>*/}
+                    {/*        </ToggleGroupItem>*/}
+                    {/*        <ToggleGroupItem value="strikethrough" aria-label="Toggle strikethrough">*/}
+                    {/*            <UnderlineIcon className="h-4 w-4"/>*/}
+                    {/*        </ToggleGroupItem>*/}
+                    {/*    </ToggleGroup>*/}
+                    {/*</CardHeader>*/}
 
                     <CardContent className="flex-1 overflow-auto">
                         <LexicalComposer initialConfig={editorConfig}>
@@ -265,12 +263,12 @@ export default function Editor() {
                             </div>
                         </LexicalComposer>
                     </CardContent>
-                    <CardFooter>
-                        <div className="w-full">
-                            <p className="font-bold">Editor State (Serialized):</p>
-                            {/*<pre className="bg-gray-100 p-2 rounded min-h-[10vh]">{editorState || 'The editor state will appear here...'}</pre>*/}
-                        </div>
-                    </CardFooter>
+                    {/*<CardFooter>*/}
+                    {/*    <div className="w-full">*/}
+                    {/*        <p className="font-bold">Editor State (Serialized):</p>*/}
+                    {/*        /!*<pre className="bg-gray-100 p-2 rounded min-h-[10vh]">{editorState || 'The editor state will appear here...'}</pre>*!/*/}
+                    {/*    </div>*/}
+                    {/*</CardFooter>*/}
                 </Card>
             </main>
         </div>

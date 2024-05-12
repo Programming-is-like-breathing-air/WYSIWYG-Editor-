@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { Button } from "@/components/ui/button"
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {mergeRegister} from '@lexical/utils';
 import {
@@ -23,9 +24,16 @@ import {ToggleGroupItem} from "@/components/ui/toggle-group";
 import {ToggleGroup} from "@/components/ui/toggle-group";
 
 import {
+    ResetIcon,
     FontBoldIcon,
+    ReloadIcon,
     FontItalicIcon,
     UnderlineIcon,
+    StrikethroughIcon,
+    TextAlignLeftIcon,
+    TextAlignCenterIcon,
+    TextAlignRightIcon,
+    TextAlignJustifyIcon,
 } from "@radix-ui/react-icons"
 
 const LowPriority = 1;
@@ -91,6 +99,7 @@ export default function ToolbarPlugin() {
 
     return (
         <div className="toolbar" ref={toolbarRef}>
+            <ToggleGroup type="multiple" variant="outline">
             <button
                 disabled={!canUndo}
                 onClick={() => {
@@ -98,7 +107,10 @@ export default function ToolbarPlugin() {
                 }}
                 className="toolbar-item spaced"
                 aria-label="Undo">
-                <i className="format undo" />HHHHHH
+                <i className="format undo" />
+                    <ToggleGroupItem value="Undo" aria-label="Undo">
+                        <ResetIcon className="h-4 w-4"/>
+                    </ToggleGroupItem>
             </button>
             <button
                 disabled={!canRedo}
@@ -108,6 +120,9 @@ export default function ToolbarPlugin() {
                 className="toolbar-item"
                 aria-label="Redo">
                 <i className="format redo" />
+                <ToggleGroupItem value="Reload" aria-label="Redo">
+                    <ReloadIcon className="h-4 w-4"/>
+                </ToggleGroupItem>
             </button>
             <Divider />
             <button
@@ -117,11 +132,9 @@ export default function ToolbarPlugin() {
                 className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
                 aria-label="Format Bold">
                 <i className="format bold" />
-                <ToggleGroup type="multiple" variant="outline">
-                <ToggleGroupItem value="bold" aria-label="Toggle bold">
+                <ToggleGroupItem value="bold" aria-label="Format Bold">
                     <FontBoldIcon className="h-4 w-4"/>
                 </ToggleGroupItem>
-                </ToggleGroup>
             </button>
             <button
                 onClick={() => {
@@ -130,6 +143,9 @@ export default function ToolbarPlugin() {
                 className={'toolbar-item spaced ' + (isItalic ? 'active' : '')}
                 aria-label="Format Italics">
                 <i className="format italic" />
+                <ToggleGroupItem value="format italic" aria-label="Format Italics">
+                    <FontItalicIcon className="h-4 w-4"/>
+                </ToggleGroupItem>
             </button>
             <button
                 onClick={() => {
@@ -138,6 +154,9 @@ export default function ToolbarPlugin() {
                 className={'toolbar-item spaced ' + (isUnderline ? 'active' : '')}
                 aria-label="Format Underline">
                 <i className="format underline" />
+                <ToggleGroupItem value="format underline" aria-label="Format Underline">
+                    <UnderlineIcon className="h-4 w-4"/>
+                </ToggleGroupItem>
             </button>
             <button
                 onClick={() => {
@@ -146,6 +165,9 @@ export default function ToolbarPlugin() {
                 className={'toolbar-item spaced ' + (isStrikethrough ? 'active' : '')}
                 aria-label="Format Strikethrough">
                 <i className="format strikethrough" />
+                <ToggleGroupItem value="format strikethrough" aria-label="Format Strikethrough">
+                    <StrikethroughIcon className="h-4 w-4"/>
+                </ToggleGroupItem>
             </button>
             <Divider />
             <button
@@ -155,6 +177,9 @@ export default function ToolbarPlugin() {
                 className="toolbar-item spaced"
                 aria-label="Left Align">
                 <i className="format left-align" />
+                <ToggleGroupItem className="toolbar-item spaced" value="" aria-label="Left Align">
+                    <TextAlignLeftIcon className="h-4 w-4"/>
+                </ToggleGroupItem>
             </button>
             <button
                 onClick={() => {
@@ -163,6 +188,9 @@ export default function ToolbarPlugin() {
                 className="toolbar-item spaced"
                 aria-label="Center Align">
                 <i className="format center-align" />
+                <ToggleGroupItem className="toolbar-item spaced" value="" aria-label="Center Align">
+                    <TextAlignCenterIcon className="h-4 w-4"/>
+                </ToggleGroupItem>
             </button>
             <button
                 onClick={() => {
@@ -171,6 +199,9 @@ export default function ToolbarPlugin() {
                 className="toolbar-item spaced"
                 aria-label="Right Align">
                 <i className="format right-align" />
+                <ToggleGroupItem className="toolbar-item spaced" value="" aria-label="Right Align">
+                    <TextAlignRightIcon className="h-4 w-4"/>
+                </ToggleGroupItem>
             </button>
             <button
                 onClick={() => {
@@ -179,7 +210,11 @@ export default function ToolbarPlugin() {
                 className="toolbar-item"
                 aria-label="Justify Align">
                 <i className="format justify-align" />
+                <ToggleGroupItem className="toolbar-item spaced" value="" aria-label="Justify Align">
+                    <TextAlignJustifyIcon className="h-4 w-4"/>
+                </ToggleGroupItem>
             </button>{' '}
+            </ToggleGroup>
         </div>
     );
 }
