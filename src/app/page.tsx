@@ -1,7 +1,5 @@
 "use client"
-
 import './index.css';
-
 import {useEffect, useState} from 'react';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
 import {ContentEditable} from '@lexical/react/LexicalContentEditable';
@@ -20,7 +18,6 @@ import ToolbarPlugin from "@/components/plugins/ToolbarPlugin";
 // import ListMaxIndentLevelPlugin from "@/components/plugins/ListMaxIndentLevelPlugin";
 // import CodeHighlightPlugin from "@/components/plugins/CodeHighlightPlugin";
 // import AutoLinkPlugin from "@/components/plugins/AutoLinkPlugin";
-
 
 import {Button} from "@/components/ui/button"
 import {
