@@ -1,5 +1,7 @@
 "use client"
 
+import './index.css';
+
 import {useEffect, useState} from 'react';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
 import {ContentEditable} from '@lexical/react/LexicalContentEditable';
@@ -19,19 +21,7 @@ import ToolbarPlugin from "@/components/plugins/ToolbarPlugin";
 // import CodeHighlightPlugin from "@/components/plugins/CodeHighlightPlugin";
 // import AutoLinkPlugin from "@/components/plugins/AutoLinkPlugin";
 
-import {Textarea} from "@/components/ui/textarea";
-import {
-    FontBoldIcon,
-    FontItalicIcon,
-    UnderlineIcon,
-} from "@radix-ui/react-icons"
-import {Card, CardHeader, CardTitle, CardContent, CardFooter} from '@/components/ui/card';
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from "@/components/ui/avatar"
-import {Badge} from "@/components/ui/badge"
+
 import {Button} from "@/components/ui/button"
 import {
     Activity,
@@ -55,18 +45,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import {Input} from "@/components/ui/input"
 import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet"
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import {
-    ToggleGroup,
-    ToggleGroupItem,
-} from "@/components/ui/toggle-group"
 
 import {EditorState, LexicalEditor} from 'lexical';
 // Assuming ToolbarPlugin and TreeViewPlugin are in the plugins directory
@@ -100,6 +78,7 @@ export default function Editor() {
     const initialConfig = {
         namespace: 'MyEditor',
     };
+
     function onChange(editorState: EditorState) {
         // Serialize the editor state to JSON and store it in the component state
         const editorStateJSON = editorState.toJSON();
@@ -232,20 +211,6 @@ export default function Editor() {
                 className="flex mx-auto overflow-hidden my-5 max-w-screen-xl rounded  border-gray-300 bg-white text-left font-normal leading-5 text-gray-900">
                 {/*bg-gray-100 p-2 rounded min-h-[10vh]*/}
                 <div className="w-full max-w-5xl min-h-[80vh] min-w-[120vh] ">
-                    {/*<CardHeader>*/}
-                    {/*    /!*<CardTitle>Lexical Text Editor</CardTitle>*!/*/}
-                    {/*    <ToggleGroup type="multiple" variant="outline">*/}
-                    {/*        <ToggleGroupItem value="bold" aria-label="Toggle bold">*/}
-                    {/*            <FontBoldIcon className="h-4 w-4"/>*/}
-                    {/*        </ToggleGroupItem>*/}
-                    {/*        <ToggleGroupItem value="italic" aria-label="Toggle italic">*/}
-                    {/*            <FontItalicIcon className="h-4 w-4"/>*/}
-                    {/*        </ToggleGroupItem>*/}
-                    {/*        <ToggleGroupItem value="strikethrough" aria-label="Toggle strikethrough">*/}
-                    {/*            <UnderlineIcon className="h-4 w-4"/>*/}
-                    {/*        </ToggleGroupItem>*/}
-                    {/*    </ToggleGroup>*/}
-                    {/*</CardHeader>*/}
 
                     <div className="flex-1 overflow-auto">
                         <LexicalComposer initialConfig={editorConfig}>
@@ -263,9 +228,8 @@ export default function Editor() {
                                     <AutoFocusPlugin/>
                                     <TreeViewPlugin/>
                                 </div>
-                                </div>
+                            </div>
                         </LexicalComposer>
-
                     </div>
                     {/*<CardFooter>*/}
                     {/*    <div className="w-full">*/}
