@@ -1,4 +1,5 @@
-"use client";
+"use client"
+
 import {useEffect, useState} from 'react';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
 import {ContentEditable} from '@lexical/react/LexicalContentEditable';
@@ -11,7 +12,7 @@ import {LinkPlugin} from "@lexical/react/LexicalLinkPlugin";
 import {ListPlugin} from "@lexical/react/LexicalListPlugin";
 import {MarkdownShortcutPlugin} from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import {TRANSFORMERS} from "@lexical/markdown";
-
+import ExampleTheme from '../ExampleTheme';
 import TreeViewPlugin from "@/components/plugins/TreeViewPlugin";
 import ToolbarPlugin from "@/components/plugins/ToolbarPlugin";
 // import ListMaxIndentLevelPlugin from "@/components/plugins/ListMaxIndentLevelPlugin";
@@ -80,6 +81,7 @@ const editorConfig = {
     onError(error: Error) {
         console.error('Lexical editor error:', error);
     },
+    theme: ExampleTheme,
 };
 
 // A plugin to handle changes in the editor state
@@ -229,7 +231,7 @@ export default function Editor() {
             <main
                 className="flex mx-auto overflow-hidden my-5 max-w-screen-xl rounded  border-gray-300 bg-white text-left font-normal leading-5 text-gray-900">
                 {/*bg-gray-100 p-2 rounded min-h-[10vh]*/}
-                <Card className="w-full max-w-5xl min-h-[80vh] min-w-[120vh] ">
+                <div className="w-full max-w-5xl min-h-[80vh] min-w-[120vh] ">
                     {/*<CardHeader>*/}
                     {/*    /!*<CardTitle>Lexical Text Editor</CardTitle>*!/*/}
                     {/*    <ToggleGroup type="multiple" variant="outline">*/}
@@ -245,33 +247,34 @@ export default function Editor() {
                     {/*    </ToggleGroup>*/}
                     {/*</CardHeader>*/}
 
-                    <CardContent className="flex-1 overflow-auto">
+                    <div className="flex-1 overflow-auto">
                         <LexicalComposer initialConfig={editorConfig}>
-                            <div className="editor-container p-4">
+                            <div className="editor-container">
                                 <ToolbarPlugin/>
-                                <RichTextPlugin
-                                    contentEditable={<ContentEditable
-                                        className="editor-input min-h-[150px] p-2 outline-none"/>}
-                                    placeholder={<Placeholder/>}
-                                    ErrorBoundary={LexicalErrorBoundary}
-                                />
-                                <p className="font-bold">Editor State (Serialized):</p>
-                                <HistoryPlugin/>
-                                <AutoFocusPlugin/>
-                                <TreeViewPlugin/>
-                                <MyOnChangePlugin onChange={onChange}/>
-                            </div>
+                                <div className="editor-inner">
+                                    <RichTextPlugin
+                                        contentEditable={<ContentEditable
+                                            className="editor-input min-h-[150px] p-2 outline-none"/>}
+                                        placeholder={<Placeholder/>}
+                                        ErrorBoundary={LexicalErrorBoundary}
+                                    />
+                                    <p className="font-bold">Editor State (Serialized):</p>
+                                    <HistoryPlugin/>
+                                    <AutoFocusPlugin/>
+                                    <TreeViewPlugin/>
+                                </div>
+                                </div>
                         </LexicalComposer>
-                    </CardContent>
+
+                    </div>
                     {/*<CardFooter>*/}
                     {/*    <div className="w-full">*/}
                     {/*        <p className="font-bold">Editor State (Serialized):</p>*/}
                     {/*        /!*<pre className="bg-gray-100 p-2 rounded min-h-[10vh]">{editorState || 'The editor state will appear here...'}</pre>*!/*/}
                     {/*    </div>*/}
                     {/*</CardFooter>*/}
-                </Card>
+                </div>
             </main>
         </div>
-    )
-        ;
+    );
 }
