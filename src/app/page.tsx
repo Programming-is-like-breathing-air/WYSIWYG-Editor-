@@ -81,6 +81,28 @@ export default function Editor() {
         const editorStateJSON = editorState.toJSON();
         setEditorState(JSON.stringify(editorStateJSON));
     }
+    function handleSubmit() {
+        // Here you would send the `editorState` to your backend or database
+        // For demonstration, we're just logging it to the console
+        console.log("Submitting the following editor state to the backend:", editorState);
+        
+        // Example POST request with fetch (if you have an endpoint to handle this)
+        /*
+        fetch('/api/save-editor-state', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ editorState }),
+        })
+        .then(response => response.json())
+        .then(data => console.log('Success:', data))
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+        */
+    }
+
 
     return (
         <div className="flex min-h-screen w-full flex-col">
@@ -100,12 +122,12 @@ export default function Editor() {
                     >
                         Dashboard
                     </Link>
-                    <Link
-                        href="#"
-                        className="text-muted-foreground transition-colors hover:text-foreground"
+                    <Button
+                        className="text-muted-foreground hover:text-foreground"
+                        onClick={handleSubmit} // Attach the submit function here
                     >
-                        Orders
-                    </Link>
+                        Submit
+                    </Button>
                     <Link
                         href="#"
                         className="text-muted-foreground transition-colors hover:text-foreground"
@@ -148,12 +170,12 @@ export default function Editor() {
                             <Link href="#" className="hover:text-foreground">
                                 Dashboard
                             </Link>
-                            <Link
-                                href="#"
+                            <Button
                                 className="text-muted-foreground hover:text-foreground"
+                                onClick={handleSubmit} // Attach the submit function here
                             >
-                                Orders
-                            </Link>
+                                Submit
+                            </Button>
                             <Link
                                 href="#"
                                 className="text-muted-foreground hover:text-foreground"
