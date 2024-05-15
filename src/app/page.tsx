@@ -18,6 +18,8 @@ import ToolbarPlugin from "@/components/plugins/ToolbarPlugin";
 // import ListMaxIndentLevelPlugin from "@/components/plugins/ListMaxIndentLevelPlugin";
 // import CodeHighlightPlugin from "@/components/plugins/CodeHighlightPlugin";
 import AutoLinkPlugin from "@/components/plugins/AutoLinkPlugin";
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
 import {Button} from "@/components/ui/button"
 import {
@@ -44,6 +46,7 @@ import {Input} from "@/components/ui/input"
 import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet"
 
 import {EditorState, LexicalEditor} from 'lexical';
+import RootLayout from "@/app/layout";
 // Assuming ToolbarPlugin and TreeViewPlugin are in the plugins directory
 // Placeholder component
 function Placeholder() {
@@ -81,14 +84,26 @@ export default function Editor() {
         const editorStateJSON = editorState.toJSON();
         setEditorState(JSON.stringify(editorStateJSON));
     }
-    function handleSubmit() {
+    const handleSubmit = async () => {
         // Here you would send the `editorState` to your backend or database
         // For demonstration, we're just logging it to the console
         console.log("Submitting the following editor state to the backend:", editorState);
-        const userId = 1;  // 示例用户ID
-        const title = "Example Post Title";  // 示例标题
+        try {
+            const user = await prisma.post.create({
+                data: {
+                    authorId: 1,
+                    title: "Example Post3",
+                    info: "editorState3",
+                },
+            })
+            console.log(user)
 
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
+
+
 
 
     return (
@@ -243,3 +258,4 @@ export default function Editor() {
         </div>
     );
 }
+
