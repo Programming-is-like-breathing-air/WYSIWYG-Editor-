@@ -94,7 +94,7 @@ export default function Editor() {
             const postSubmit = await prisma.post.create({
                 data: {
                     authorId: 1,
-                    title: "Example Post3",
+                    title: "Example Post",
                     info: txt,
                 },
             })
@@ -103,9 +103,15 @@ export default function Editor() {
             console.error('Error:', error);
         }
     }
-
-
-
+    // handleSubmit()
+    //     .then(async () => {
+    //         await prisma.$disconnect()
+    //     })
+    //     .catch(async (e) => {
+    //         console.error(e)
+    //         await prisma.$disconnect()
+    //         process.exit(1)
+    //     })
 
     return (
         <div className="flex min-h-screen w-full flex-col">
