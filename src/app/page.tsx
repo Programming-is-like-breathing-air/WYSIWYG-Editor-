@@ -17,7 +17,7 @@ import TreeViewPlugin from "@/components/plugins/TreeViewPlugin";
 import ToolbarPlugin from "@/components/plugins/ToolbarPlugin";
 // import ListMaxIndentLevelPlugin from "@/components/plugins/ListMaxIndentLevelPlugin";
 // import CodeHighlightPlugin from "@/components/plugins/CodeHighlightPlugin";
-// import AutoLinkPlugin from "@/components/plugins/AutoLinkPlugin";
+import AutoLinkPlugin from "@/components/plugins/AutoLinkPlugin";
 
 import {Button} from "@/components/ui/button"
 import {
@@ -85,7 +85,7 @@ export default function Editor() {
         // Here you would send the `editorState` to your backend or database
         // For demonstration, we're just logging it to the console
         console.log("Submitting the following editor state to the backend:", editorState);
-        
+        console.log(editorState);
         // Example POST request with fetch (if you have an endpoint to handle this)
         /*
         fetch('/api/save-editor-state', {
@@ -246,6 +246,8 @@ export default function Editor() {
                                     <HistoryPlugin/>
                                     <AutoFocusPlugin/>
                                     <TreeViewPlugin/>
+                                    <MyOnChangePlugin onChange={onChange}/>
+                                    {/*<AutoLinkPlugin/>*/}
                                 </div>
                             </div>
                         </LexicalComposer>
