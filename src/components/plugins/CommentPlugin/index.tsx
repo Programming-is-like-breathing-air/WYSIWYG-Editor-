@@ -52,7 +52,7 @@ import {
 import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import * as React from 'react';
 import {createPortal} from 'react-dom';
-import useLayoutEffect from 'shared/useLayoutEffect';
+import useLayoutEffect from '../../shared/src/useLayoutEffect';
 
 import {
   Comment,
@@ -62,9 +62,9 @@ import {
   createThread,
   Thread,
   useCommentStore,
-} from '../../commenting';
-import useModal from '../../hooks/useModal';
-import CommentEditorTheme from '../../themes/CommentEditorTheme';
+} from '../../../commenting';
+import useModal from '../../../hooks/useModal';
+import CommentEditorTheme from '../../../themes/CommentEditorTheme';
 import Button from '../../ui/Button';
 import ContentEditable from '../../ui/ContentEditable';
 import Placeholder from '../../ui/Placeholder';

@@ -14,13 +14,16 @@ import {MarkdownShortcutPlugin} from "@lexical/react/LexicalMarkdownShortcutPlug
 import {TRANSFORMERS} from "@lexical/markdown";
 import ExampleTheme from '../ExampleTheme';
 import TreeViewPlugin from "@/components/plugins/TreeViewPlugin";
-
+import Editor from './Editor';
 // import ToolbarPlugin from "@/components/plugins/ToolbarPlugin";
 import ToolbarPlugin from "@/components/plugins/ToolbarPlugin/index";
 
 // import ListMaxIndentLevelPlugin from "@/components/plugins/ListMaxIndentLevelPlugin";
 // import CodeHighlightPlugin from "@/components/plugins/CodeHighlightPlugin";
 // import AutoLinkPlugin from "@/components/plugins/AutoLinkPlugin";
+import {SharedAutocompleteContext} from '../context/SharedAutocompleteContext';
+import {SharedHistoryContext} from '../context/SharedHistoryContext';
+
 
 import {Button1} from "@/components/ui/button-radix-ui"
 
@@ -72,7 +75,7 @@ function MyOnChangePlugin({onChange}: { onChange: (editorState: EditorState) => 
     return null;
 }
 
-export default function Editor() {
+export default function App() {
     const [editorState, setEditorState] = useState<string>();
     const initialConfig = {
         namespace: 'MyEditor',
@@ -214,8 +217,8 @@ export default function Editor() {
                     <div className="flex-1 overflow-auto">
                         <LexicalComposer initialConfig={editorConfig}>
                             <div className="editor-container">
-                                <ToolbarPlugin/>
                                 <div className="editor-inner">
+                                    <Editor />
                                     <RichTextPlugin
                                         contentEditable={<ContentEditable
                                             className="editor-input min-h-[150px] p-2 outline-none"/>}

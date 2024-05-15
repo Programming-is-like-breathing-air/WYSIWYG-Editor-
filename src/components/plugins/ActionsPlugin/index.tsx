@@ -34,11 +34,11 @@ import {
 } from 'lexical';
 import {useCallback, useEffect, useState} from 'react';
 
-import {INITIAL_SETTINGS} from '../../appSettings';
-import useFlashMessage from '../../hooks/useFlashMessage';
-import useModal from '../../hooks/useModal';
+import {INITIAL_SETTINGS} from '../../../appSettings';
+import useFlashMessage from '../../../hooks/useFlashMessage';
+import useModal from '../../../hooks/useModal';
 import Button from '../../ui/Button';
-import {docFromHash, docToHash} from '../../utils/docSerialization';
+import {docFromHash, docToHash} from '../../../utils/docSerialization';
 import {PLAYGROUND_TRANSFORMERS} from '../MarkdownTransformers';
 import {
   SPEECH_TO_TEXT_COMMAND,

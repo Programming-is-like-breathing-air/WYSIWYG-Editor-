@@ -24,12 +24,12 @@ import {
 } from 'lexical';
 import {useCallback, useEffect} from 'react';
 
-import {useSharedAutocompleteContext} from '../../context/SharedAutocompleteContext';
+import {useSharedAutocompleteContext} from '../../../context/SharedAutocompleteContext';
 import {
   $createAutocompleteNode,
   AutocompleteNode,
-} from '../../nodes/AutocompleteNode';
-import {addSwipeRightListener} from '../../utils/swipe';
+} from '../../../nodes/AutocompleteNode';
+import {addSwipeRightListener} from '../../../utils/swipe';
 
 type SearchPromise = {
   dismiss: () => void;

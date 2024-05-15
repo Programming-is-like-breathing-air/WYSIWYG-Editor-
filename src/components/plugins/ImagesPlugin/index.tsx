@@ -37,7 +37,7 @@ import {
   ImageNode,
   ImagePayload,
 } from '../../../nodes/ImageNode';
-import Button from '../../ui/button';
+import Button from '../../../components/ui/Button';
 import {DialogActions, DialogButtonsList} from '../../ui/Dialog';
 import FileInput from '../../ui/FileInput';
 import TextInput from '../../ui/TextInput';
