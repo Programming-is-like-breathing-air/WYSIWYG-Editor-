@@ -88,16 +88,17 @@ export default function Editor() {
         // Here you would send the `editorState` to your backend or database
         // For demonstration, we're just logging it to the console
         console.log("Submitting the following editor state to the backend:", editorState);
+        // @ts-ignore
+        const txt = editorState.toString();
         try {
-            const user = await prisma.post.create({
+            const postSubmit = await prisma.post.create({
                 data: {
                     authorId: 1,
                     title: "Example Post3",
-                    info: "editorState3",
+                    info: txt,
                 },
             })
-            console.log(user)
-
+            console.log(postSubmit)
         } catch (error) {
             console.error('Error:', error);
         }
