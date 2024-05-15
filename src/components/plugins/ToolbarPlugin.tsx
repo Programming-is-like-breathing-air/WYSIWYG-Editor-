@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Button } from "@/components/ui/button"
+import {Button} from "@/components/ui/button"
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {mergeRegister} from '@lexical/utils';
 import {
@@ -14,31 +14,143 @@ import {
     CAN_REDO_COMMAND,
     CAN_UNDO_COMMAND,
     FORMAT_ELEMENT_COMMAND,
-    FORMAT_TEXT_COMMAND,
+    FORMAT_TEXT_COMMAND, LexicalEditor,
     REDO_COMMAND,
     SELECTION_CHANGE_COMMAND,
     UNDO_COMMAND,
 } from 'lexical';
-import {useCallback, useEffect, useRef, useState} from 'react';
-import {
-    ResetIcon,
-    FontBoldIcon,
-    ReloadIcon,
-    FontItalicIcon,
-    UnderlineIcon,
-    StrikethroughIcon,
-    TextAlignLeftIcon,
-    TextAlignCenterIcon,
-    TextAlignRightIcon,
-    TextAlignJustifyIcon,
-} from "@radix-ui/react-icons"
+import DropDown, {DropDownItem} from '../../components/ui/DropDown';
+import {Dispatch, useCallback, useEffect, useRef, useState} from 'react';
+import FontSize from './fontSize';
+import {TOGGLE_LINK_COMMAND} from "@lexical/link";
+import {$patchStyleText} from "@lexical/selection";
 
 const LowPriority = 1;
+const FONT_FAMILY_OPTIONS: [string, string][] = [
+    ['Arial', 'Arial'],
+    ['Courier New', 'Courier New'],
+    ['Georgia', 'Georgia'],
+    ['Times New Roman', 'Times New Roman'],
+    ['Trebuchet MS', 'Trebuchet MS'],
+    ['Verdana', 'Verdana'],
+];
 
-function Divider() {
+const FONT_SIZE_OPTIONS: [string, string][] = [
+    ['10px', '10px'],
+    ['11px', '11px'],
+    ['12px', '12px'],
+    ['13px', '13px'],
+    ['14px', '14px'],
+    ['15px', '15px'],
+    ['16px', '16px'],
+    ['17px', '17px'],
+    ['18px', '18px'],
+    ['19px', '19px'],
+    ['20px', '20px'],
+];
+const ELEMENT_FORMAT_OPTIONS: {
+    [key in Exclude<ElementFormatType, ''>]: {
+        icon: string;
+        iconRTL: string;
+        name: string;
+    };
+} = {
+    center: {
+        icon: 'center-align',
+        iconRTL: 'center-align',
+        name: 'Center Align',
+    },
+    end: {
+        icon: 'right-align',
+        iconRTL: 'left-align',
+        name: 'End Align',
+    },
+    justify: {
+        icon: 'justify-align',
+        iconRTL: 'justify-align',
+        name: 'Justify Align',
+    },
+    left: {
+        icon: 'left-align',
+        iconRTL: 'left-align',
+        name: 'Left Align',
+    },
+    right: {
+        icon: 'right-align',
+        iconRTL: 'right-align',
+        name: 'Right Align',
+    },
+    start: {
+        icon: 'left-align',
+        iconRTL: 'right-align',
+        name: 'Start Align',
+    },
+};
+
+function dropDownActiveClass(active: boolean) {
+    if (active) {
+        return 'active dropdown-item-active';
+    } else {
+        return '';
+    }
+}
+function Divider(): JSX.Element {
     return <div className="divider" />;
 }
+function FontDropDown({
+                          editor,
+                          value,
+                          style,
+                          disabled = false,
+                      }: {
+    editor: LexicalEditor;
+    value: string;
+    style: string;
+    disabled?: boolean;
+}): JSX.Element {
+    const handleClick = useCallback(
+        (option: string) => {
+            editor.update(() => {
+                const selection = $getSelection();
+                if (selection !== null) {
+                    $patchStyleText(selection, {
+                        [style]: option,
+                    });
+                }
+            });
+        },
+        [editor, style],
+    );
 
+    const buttonAriaLabel =
+        style === 'font-family'
+            ? 'Formatting options for font family'
+            : 'Formatting options for font size';
+
+    return (
+        <DropDown
+            disabled={disabled}
+            buttonClassName={'toolbar-item ' + style}
+            buttonLabel={value}
+            buttonIconClassName={
+                style === 'font-family' ? 'icon block-type font-family' : ''
+            }
+            buttonAriaLabel={buttonAriaLabel}>
+            {(style === 'font-family' ? FONT_FAMILY_OPTIONS : FONT_SIZE_OPTIONS).map(
+                ([option, text]) => (
+                    <DropDownItem
+                        className={`item ${dropDownActiveClass(value === option)} ${
+                            style === 'font-size' ? 'fontsize-item' : ''
+                        }`}
+                        onClick={() => handleClick(option)}
+                        key={option}>
+                        <span className="text">{text}</span>
+                    </DropDownItem>
+                ),
+            )}
+        </DropDown>
+    );
+}
 export default function ToolbarPlugin() {
     const [editor] = useLexicalComposerContext();
     const toolbarRef = useRef(null);
@@ -48,7 +160,9 @@ export default function ToolbarPlugin() {
     const [isItalic, setIsItalic] = useState(false);
     const [isUnderline, setIsUnderline] = useState(false);
     const [isStrikethrough, setIsStrikethrough] = useState(false);
-
+    const [isEditable, setIsEditable] = useState(() => editor.isEditable());
+    const [fontFamily, setFontFamily] = useState<string>('Arial');
+    const [fontSize, setFontSize] = useState<string>('15px');
     const $updateToolbar = useCallback(() => {
         const selection = $getSelection();
         if ($isRangeSelection(selection)) {
@@ -93,9 +207,22 @@ export default function ToolbarPlugin() {
             ),
         );
     }, [editor, $updateToolbar]);
-
     return (
         <div className="toolbar" ref={toolbarRef}>
+            <FontDropDown
+                disabled={!isEditable}
+                style={'font-family'}
+                value={fontFamily}
+                editor={editor}
+            />
+            <Divider />
+            {/*<FontSize*/}
+            {/*    selectionFontSize={fontSize.slice(0, -2)}*/}
+            {/*    editor={editor}*/}
+            {/*    disabled={!isEditable}*/}
+            {/*/>*/}
+            {/*<Divider />*/}
+
             <button
                 disabled={!canUndo}
                 onClick={() => {
@@ -103,7 +230,7 @@ export default function ToolbarPlugin() {
                 }}
                 className="toolbar-item spaced"
                 aria-label="Undo">
-                <i className="format undo" />
+                <i className="format undo"/>
             </button>
             <button
                 disabled={!canRedo}
@@ -112,16 +239,16 @@ export default function ToolbarPlugin() {
                 }}
                 className="toolbar-item"
                 aria-label="Redo">
-                <i className="format redo" />
+                <i className="format redo"/>
             </button>
-            <Divider />
+            <Divider/>
             <button
                 onClick={() => {
                     editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
                 }}
                 className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
                 aria-label="Format Bold">
-                <i className="format bold" />
+                <i className="format bold"/>
             </button>
             <button
                 onClick={() => {
@@ -129,7 +256,7 @@ export default function ToolbarPlugin() {
                 }}
                 className={'toolbar-item spaced ' + (isItalic ? 'active' : '')}
                 aria-label="Format Italics">
-                <i className="format italic" />
+                <i className="format italic"/>
             </button>
             <button
                 onClick={() => {
@@ -137,7 +264,7 @@ export default function ToolbarPlugin() {
                 }}
                 className={'toolbar-item spaced ' + (isUnderline ? 'active' : '')}
                 aria-label="Format Underline">
-                <i className="format underline" />
+                <i className="format underline"/>
             </button>
             <button
                 onClick={() => {
@@ -145,16 +272,16 @@ export default function ToolbarPlugin() {
                 }}
                 className={'toolbar-item spaced ' + (isStrikethrough ? 'active' : '')}
                 aria-label="Format Strikethrough">
-                <i className="format strikethrough" />
+                <i className="format strikethrough"/>
             </button>
-            <Divider />
+            <Divider/>
             <button
                 onClick={() => {
                     editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left');
                 }}
                 className="toolbar-item spaced"
                 aria-label="Left Align">
-                <i className="format left-align" />
+                <i className="format left-align"/>
             </button>
             <button
                 onClick={() => {
@@ -162,7 +289,7 @@ export default function ToolbarPlugin() {
                 }}
                 className="toolbar-item spaced"
                 aria-label="Center Align">
-                <i className="format center-align" />
+                <i className="format center-align"/>
             </button>
             <button
                 onClick={() => {
@@ -170,7 +297,7 @@ export default function ToolbarPlugin() {
                 }}
                 className="toolbar-item spaced"
                 aria-label="Right Align">
-                <i className="format right-align" />
+                <i className="format right-align"/>
             </button>
             <button
                 onClick={() => {
@@ -178,8 +305,18 @@ export default function ToolbarPlugin() {
                 }}
                 className="toolbar-item"
                 aria-label="Justify Align">
-                <i className="format justify-align" />
-            </button>{' '}
+                <i className="format justify-align"/>
+            </button>
+
+            <button
+                onClick={() => {
+                    editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code');
+                }}
+                className={'toolbar-item spaced'}
+                aria-label="Insert code block">
+                <i className="format code"/>
+            </button>
+            {' '}
         </div>
     );
 }
