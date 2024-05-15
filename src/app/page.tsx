@@ -14,15 +14,17 @@ import {MarkdownShortcutPlugin} from "@lexical/react/LexicalMarkdownShortcutPlug
 import {TRANSFORMERS} from "@lexical/markdown";
 import ExampleTheme from '../ExampleTheme';
 import TreeViewPlugin from "@/components/plugins/TreeViewPlugin";
-import ToolbarPlugin from "@/components/plugins/ToolbarPlugin";
+
+// import ToolbarPlugin from "@/components/plugins/ToolbarPlugin";
+import ToolbarPlugin from "@/components/plugins/ToolbarPlugin/index";
+
 // import ListMaxIndentLevelPlugin from "@/components/plugins/ListMaxIndentLevelPlugin";
 // import CodeHighlightPlugin from "@/components/plugins/CodeHighlightPlugin";
 // import AutoLinkPlugin from "@/components/plugins/AutoLinkPlugin";
 
-import {Button} from "@/components/ui/button"
+import {Button1} from "@/components/ui/button-radix-ui"
+
 import {
-    Activity,
-    ArrowUpRight,
     CircleUser,
     CreditCard,
     DollarSign,
@@ -127,14 +129,14 @@ export default function Editor() {
                 </nav>
                 <Sheet>
                     <SheetTrigger asChild>
-                        <Button
+                        <Button1
                             variant="outline"
                             size="icon"
                             className="shrink-0 md:hidden"
                         >
                             <Menu className="h-5 w-5"/>
                             <span className="sr-only">Toggle navigation menu</span>
-                        </Button>
+                        </Button1>
                     </SheetTrigger>
                     <SheetContent side="left">
                         <nav className="grid gap-6 text-lg font-medium">
@@ -188,10 +190,10 @@ export default function Editor() {
                     </form>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="secondary" size="icon" className="rounded-full">
+                            <Button1 variant="secondary" size="icon" className="rounded-full">
                                 <CircleUser className="h-5 w-5"/>
                                 <span className="sr-only">Toggle user menu</span>
-                            </Button>
+                            </Button1>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>My Account</DropdownMenuLabel>
