@@ -84,28 +84,28 @@ export default function Editor() {
         const editorStateJSON = editorState.toJSON();
         setEditorState(JSON.stringify(editorStateJSON));
     }
-    const handleSubmit = async () => {
-        // Here you would send the `editorState` to your backend or database
-        // For demonstration, we're just logging it to the console
-        console.log("Submitting the following editor state to the backend:", editorState);
-        // @ts-ignore
-        const txt = editorState?.toString();
-        console.log("txt is", txt);
-        try {
-            // @ts-ignore
-            const postSubmit = await prisma.post.create({
-
-                data: {
-                    // authorId:1,
-                    title: "Example Post",
-                    info: "txt",
-                },
-            })
-            console.log(postSubmit)
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
+    // const handleSubmit = async () => {
+    //     // Here you would send the `editorState` to your backend or database
+    //     // For demonstration, we're just logging it to the console
+    //     console.log("Submitting the following editor state to the backend:", editorState);
+    //     // @ts-ignore
+    //     const txt = editorState?.toString();
+    //     console.log("txt is", txt);
+    //     try {
+    //         // @ts-ignore
+    //         const postSubmit = await prisma.post.create({
+    //
+    //             data: {
+    //                 // authorId:1,
+    //                 title: "Example Post",
+    //                 info: "txt",
+    //             },
+    //         })
+    //         console.log(postSubmit)
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    // }
     // handleSubmit()
     //     .then(async () => {
     //         await prisma.$disconnect()
@@ -115,6 +115,34 @@ export default function Editor() {
     //         await prisma.$disconnect()
     //         process.exit(1)
     //     })
+    const handleSubmit = async () => {
+        console.log("Submitting the following editor state to the backend:", editorState);
+
+        try {
+            const response = await fetch('http://localhost:4000/submit-editor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    authorId: 1,
+                    title: "Example Post", // Example title
+                    info: editorState,
+                }),
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log("Server response:", result);
+                alert('Editor state saved successfully!');
+            } else {
+                throw new Error('Failed to submit editor state');
+            }
+        } catch (error) {
+            console.error('Error submitting editor state:', error);
+            alert('Error submitting editor state');
+        }
+    };
 
     return (
         <div className="flex min-h-screen w-full flex-col">
@@ -136,18 +164,18 @@ export default function Editor() {
                     </Link>
 
                     <Button
-                        className="bg-white text-gray-900 hover:text-gray-700 border-2 border-black"
+                        className="bg-white text-gray-700 hover:text-gray-700 border-2 border-gray-700"
                     >
                         Open
                     </Button>
                     <Button
-                        className="bg-white text-gray-900 hover:text-gray-700 border-2 border-black"
+                        className="bg-white text-gray-700 hover:text-gray-700 border-2 border-gray-700"
                         onClick={handleSubmit} // Attach the submit function here
                     >
                         Submit
                     </Button>
                     <Button
-                        className="bg-white text-gray-900 hover:text-gray-700 border-2 border-black"
+                        className="bg-white text-gray-700 hover:text-gray-700 border-2 border-gray-700"
                     >
                         Delete
                     </Button>
