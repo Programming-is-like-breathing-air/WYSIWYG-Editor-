@@ -89,13 +89,16 @@ export default function Editor() {
         // For demonstration, we're just logging it to the console
         console.log("Submitting the following editor state to the backend:", editorState);
         // @ts-ignore
-        const txt = editorState.toString();
+        const txt = editorState?.toString();
+        console.log("txt is", txt);
         try {
+            // @ts-ignore
             const postSubmit = await prisma.post.create({
+
                 data: {
-                    authorId: 1,
+                    // authorId:1,
                     title: "Example Post",
-                    info: txt,
+                    info: "txt",
                 },
             })
             console.log(postSubmit)
@@ -133,18 +136,18 @@ export default function Editor() {
                     </Link>
 
                     <Button
-                        className="text-muted-foreground transition-colors hover:text-foreground"
+                        className="bg-white text-gray-900 hover:text-gray-700 border-2 border-black"
                     >
                         Open
                     </Button>
                     <Button
-                        className="text-muted-foreground hover:text-foreground"
+                        className="bg-white text-gray-900 hover:text-gray-700 border-2 border-black"
                         onClick={handleSubmit} // Attach the submit function here
                     >
                         Submit
                     </Button>
                     <Button
-                        className="text-muted-foreground transition-colors hover:text-foreground"
+                        className="bg-white text-gray-900 hover:text-gray-700 border-2 border-black"
                     >
                         Delete
                     </Button>
@@ -173,7 +176,7 @@ export default function Editor() {
                                 Dashboard
                             </Link>
                             <Button
-                                className="text-muted-foreground hover:text-foreground"
+                                className="bg-white text-gray-500 hover:text-gray-700"
                                 onClick={handleSubmit} // Attach the submit function here
                             >
                                 Submit
@@ -229,10 +232,9 @@ export default function Editor() {
                 </div>
             </header>
             <main
-                className="flex mx-auto overflow-hidden my-5 max-w-screen-xl rounded  border-gray-300 bg-white text-left font-normal leading-5 text-gray-900">
+                className="flex mx-auto overflow-hidden my-5 max-w-screen-xl rounded border-gray-300 bg-white text-left font-normal leading-5 text-gray-900">
                 {/*bg-gray-100 p-2 rounded min-h-[10vh]*/}
                 <div className="w-full max-w-5xl min-h-[80vh] min-w-[120vh] ">
-
                     <div className="flex-1 overflow-auto">
                         <LexicalComposer initialConfig={editorConfig}>
                             <div className="editor-container">
@@ -240,7 +242,7 @@ export default function Editor() {
                                 <div className="editor-inner">
                                     <RichTextPlugin
                                         contentEditable={<ContentEditable
-                                            className="editor-input min-h-[150px] p-2 outline-none"/>}
+                                            className="editor-input min-h-[150px] p-2 outline-none w-full max-w-full overflow-auto"/>}
                                         placeholder={<Placeholder/>}
                                         ErrorBoundary={LexicalErrorBoundary}
                                     />
@@ -249,19 +251,18 @@ export default function Editor() {
                                     <AutoFocusPlugin/>
                                     <TreeViewPlugin/>
                                     <MyOnChangePlugin onChange={onChange}/>
-                                    {/*<AutoLinkPlugin/>*/}
                                 </div>
                             </div>
                         </LexicalComposer>
                     </div>
-                    {/*<CardFooter>*/}
-                    {/*    <div className="w-full">*/}
-                    {/*        <p className="font-bold">Editor State (Serialized):</p>*/}
-                    {/*        /!*<pre className="bg-gray-100 p-2 rounded min-h-[10vh]">{editorState || 'The editor state will appear here...'}</pre>*!/*/}
-                    {/*    </div>*/}
-                    {/*</CardFooter>*/}
                 </div>
             </main>
+            {/*<CardFooter>*/}
+            {/*    <div className="w-full">*/}
+            {/*        <p className="font-bold">Editor State (Serialized):</p>*/}
+            {/*        /!*<pre className="bg-gray-100 p-2 rounded min-h-[10vh]">{editorState || 'The editor state will appear here...'}</pre>*!/*/}
+            {/*    </div>*/}
+            {/*</CardFooter>*/}
         </div>
     );
 }
