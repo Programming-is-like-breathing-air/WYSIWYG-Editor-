@@ -17,7 +17,9 @@ import TreeViewPlugin from "@/components/plugins/TreeViewPlugin";
 import ToolbarPlugin from "@/components/plugins/ToolbarPlugin";
 // import ListMaxIndentLevelPlugin from "@/components/plugins/ListMaxIndentLevelPlugin";
 // import CodeHighlightPlugin from "@/components/plugins/CodeHighlightPlugin";
-// import AutoLinkPlugin from "@/components/plugins/AutoLinkPlugin";
+import AutoLinkPlugin from "@/components/plugins/AutoLinkPlugin";
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
 import {Button} from "@/components/ui/button"
 import {
@@ -44,6 +46,7 @@ import {Input} from "@/components/ui/input"
 import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet"
 
 import {EditorState, LexicalEditor} from 'lexical';
+import RootLayout from "@/app/layout";
 // Assuming ToolbarPlugin and TreeViewPlugin are in the plugins directory
 // Placeholder component
 function Placeholder() {
@@ -81,6 +84,65 @@ export default function Editor() {
         const editorStateJSON = editorState.toJSON();
         setEditorState(JSON.stringify(editorStateJSON));
     }
+    // const handleSubmit = async () => {
+    //     // Here you would send the `editorState` to your backend or database
+    //     // For demonstration, we're just logging it to the console
+    //     console.log("Submitting the following editor state to the backend:", editorState);
+    //     // @ts-ignore
+    //     const txt = editorState?.toString();
+    //     console.log("txt is", txt);
+    //     try {
+    //         // @ts-ignore
+    //         const postSubmit = await prisma.post.create({
+    //
+    //             data: {
+    //                 // authorId:1,
+    //                 title: "Example Post",
+    //                 info: "txt",
+    //             },
+    //         })
+    //         console.log(postSubmit)
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    // }
+    // handleSubmit()
+    //     .then(async () => {
+    //         await prisma.$disconnect()
+    //     })
+    //     .catch(async (e) => {
+    //         console.error(e)
+    //         await prisma.$disconnect()
+    //         process.exit(1)
+    //     })
+    const handleSubmit = async () => {
+        console.log("Submitting the following editor state to the backend:", editorState);
+
+        try {
+            const response = await fetch('http://localhost:4000/submit-editor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    authorId: 1,
+                    title: "Example Post", // Example title
+                    info: editorState,
+                }),
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log("Server response:", result);
+                alert('Editor state saved successfully!');
+            } else {
+                throw new Error('Failed to submit editor state');
+            }
+        } catch (error) {
+            console.error('Error submitting editor state:', error);
+            alert('Error submitting editor state');
+        }
+    };
 
     return (
         <div className="flex min-h-screen w-full flex-col">
@@ -100,30 +162,23 @@ export default function Editor() {
                     >
                         Dashboard
                     </Link>
-                    <Link
-                        href="#"
-                        className="text-muted-foreground transition-colors hover:text-foreground"
+
+                    <Button
+                        className="bg-white text-gray-700 hover:text-gray-700 border-2 border-gray-700"
                     >
-                        Orders
-                    </Link>
-                    <Link
-                        href="#"
-                        className="text-muted-foreground transition-colors hover:text-foreground"
+                        Open
+                    </Button>
+                    <Button
+                        className="bg-white text-gray-700 hover:text-gray-700 border-2 border-gray-700"
+                        onClick={handleSubmit} // Attach the submit function here
                     >
-                        Products
-                    </Link>
-                    <Link
-                        href="#"
-                        className="text-muted-foreground transition-colors hover:text-foreground"
+                        Submit
+                    </Button>
+                    <Button
+                        className="bg-white text-gray-700 hover:text-gray-700 border-2 border-gray-700"
                     >
-                        Customers
-                    </Link>
-                    <Link
-                        href="#"
-                        className="text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                        Analytics
-                    </Link>
+                        Delete
+                    </Button>
                 </nav>
                 <Sheet>
                     <SheetTrigger asChild>
@@ -148,12 +203,12 @@ export default function Editor() {
                             <Link href="#" className="hover:text-foreground">
                                 Dashboard
                             </Link>
-                            <Link
-                                href="#"
-                                className="text-muted-foreground hover:text-foreground"
+                            <Button
+                                className="bg-white text-gray-500 hover:text-gray-700"
+                                onClick={handleSubmit} // Attach the submit function here
                             >
-                                Orders
-                            </Link>
+                                Submit
+                            </Button>
                             <Link
                                 href="#"
                                 className="text-muted-foreground hover:text-foreground"
@@ -205,10 +260,9 @@ export default function Editor() {
                 </div>
             </header>
             <main
-                className="flex mx-auto overflow-hidden my-5 max-w-screen-xl rounded  border-gray-300 bg-white text-left font-normal leading-5 text-gray-900">
+                className="flex mx-auto overflow-hidden my-5 max-w-screen-xl rounded border-gray-300 bg-white text-left font-normal leading-5 text-gray-900">
                 {/*bg-gray-100 p-2 rounded min-h-[10vh]*/}
                 <div className="w-full max-w-5xl min-h-[80vh] min-w-[120vh] ">
-
                     <div className="flex-1 overflow-auto">
                         <LexicalComposer initialConfig={editorConfig}>
                             <div className="editor-container">
@@ -216,7 +270,7 @@ export default function Editor() {
                                 <div className="editor-inner">
                                     <RichTextPlugin
                                         contentEditable={<ContentEditable
-                                            className="editor-input min-h-[150px] p-2 outline-none"/>}
+                                            className="editor-input min-h-[150px] p-2 outline-none w-full max-w-full overflow-auto"/>}
                                         placeholder={<Placeholder/>}
                                         ErrorBoundary={LexicalErrorBoundary}
                                     />
@@ -224,18 +278,20 @@ export default function Editor() {
                                     <HistoryPlugin/>
                                     <AutoFocusPlugin/>
                                     <TreeViewPlugin/>
+                                    <MyOnChangePlugin onChange={onChange}/>
                                 </div>
                             </div>
                         </LexicalComposer>
                     </div>
-                    {/*<CardFooter>*/}
-                    {/*    <div className="w-full">*/}
-                    {/*        <p className="font-bold">Editor State (Serialized):</p>*/}
-                    {/*        /!*<pre className="bg-gray-100 p-2 rounded min-h-[10vh]">{editorState || 'The editor state will appear here...'}</pre>*!/*/}
-                    {/*    </div>*/}
-                    {/*</CardFooter>*/}
                 </div>
             </main>
+            {/*<CardFooter>*/}
+            {/*    <div className="w-full">*/}
+            {/*        <p className="font-bold">Editor State (Serialized):</p>*/}
+            {/*        /!*<pre className="bg-gray-100 p-2 rounded min-h-[10vh]">{editorState || 'The editor state will appear here...'}</pre>*!/*/}
+            {/*    </div>*/}
+            {/*</CardFooter>*/}
         </div>
     );
 }
+

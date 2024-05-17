@@ -20,7 +20,7 @@ import {
     UNDO_COMMAND,
 } from 'lexical';
 import DropDown, {DropDownItem} from '../../components/ui/DropDown';
-import {Dispatch, useCallback, useEffect, useRef, useState} from 'react';
+import React, {Dispatch, useCallback, useEffect, useRef, useState} from 'react';
 import FontSize from './fontSize';
 import {TOGGLE_LINK_COMMAND} from "@lexical/link";
 import {$patchStyleText} from "@lexical/selection";
@@ -209,6 +209,25 @@ export default function ToolbarPlugin() {
     }, [editor, $updateToolbar]);
     return (
         <div className="toolbar" ref={toolbarRef}>
+            <button
+                disabled={!canUndo}
+                onClick={() => {
+                    editor.dispatchCommand(UNDO_COMMAND, undefined);
+                }}
+                className="toolbar-item spaced"
+                aria-label="Undo">
+                <i className="format undo" />
+            </button>
+            <button
+                disabled={!canRedo}
+                onClick={() => {
+                    editor.dispatchCommand(REDO_COMMAND, undefined);
+                }}
+                className="toolbar-item"
+                aria-label="Redo">
+                <i className="format redo" />
+            </button>
+            <Divider/>
             <FontDropDown
                 disabled={!isEditable}
                 style={'font-family'}
@@ -222,33 +241,13 @@ export default function ToolbarPlugin() {
             {/*    disabled={!isEditable}*/}
             {/*/>*/}
             {/*<Divider />*/}
-
-            <button
-                disabled={!canUndo}
-                onClick={() => {
-                    editor.dispatchCommand(UNDO_COMMAND, undefined);
-                }}
-                className="toolbar-item spaced"
-                aria-label="Undo">
-                <i className="format undo"/>
-            </button>
-            <button
-                disabled={!canRedo}
-                onClick={() => {
-                    editor.dispatchCommand(REDO_COMMAND, undefined);
-                }}
-                className="toolbar-item"
-                aria-label="Redo">
-                <i className="format redo"/>
-            </button>
-            <Divider/>
             <button
                 onClick={() => {
                     editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
                 }}
                 className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
                 aria-label="Format Bold">
-                <i className="format bold"/>
+                <i className="format bold" />
             </button>
             <button
                 onClick={() => {
@@ -256,7 +255,7 @@ export default function ToolbarPlugin() {
                 }}
                 className={'toolbar-item spaced ' + (isItalic ? 'active' : '')}
                 aria-label="Format Italics">
-                <i className="format italic"/>
+                <i className="format italic" />
             </button>
             <button
                 onClick={() => {
@@ -264,7 +263,7 @@ export default function ToolbarPlugin() {
                 }}
                 className={'toolbar-item spaced ' + (isUnderline ? 'active' : '')}
                 aria-label="Format Underline">
-                <i className="format underline"/>
+                <i className="format underline" />
             </button>
             <button
                 onClick={() => {
@@ -272,16 +271,16 @@ export default function ToolbarPlugin() {
                 }}
                 className={'toolbar-item spaced ' + (isStrikethrough ? 'active' : '')}
                 aria-label="Format Strikethrough">
-                <i className="format strikethrough"/>
+                <i className="format strikethrough" />
             </button>
-            <Divider/>
+            <Divider />
             <button
                 onClick={() => {
                     editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left');
                 }}
                 className="toolbar-item spaced"
                 aria-label="Left Align">
-                <i className="format left-align"/>
+                <i className="format left-align" />
             </button>
             <button
                 onClick={() => {
@@ -289,7 +288,7 @@ export default function ToolbarPlugin() {
                 }}
                 className="toolbar-item spaced"
                 aria-label="Center Align">
-                <i className="format center-align"/>
+                <i className="format center-align" />
             </button>
             <button
                 onClick={() => {
@@ -297,7 +296,7 @@ export default function ToolbarPlugin() {
                 }}
                 className="toolbar-item spaced"
                 aria-label="Right Align">
-                <i className="format right-align"/>
+                <i className="format right-align" />
             </button>
             <button
                 onClick={() => {
@@ -305,18 +304,8 @@ export default function ToolbarPlugin() {
                 }}
                 className="toolbar-item"
                 aria-label="Justify Align">
-                <i className="format justify-align"/>
-            </button>
-
-            <button
-                onClick={() => {
-                    editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code');
-                }}
-                className={'toolbar-item spaced'}
-                aria-label="Insert code block">
-                <i className="format code"/>
-            </button>
-            {' '}
+                <i className="format justify-align" />
+            </button>{' '}
         </div>
     );
 }
