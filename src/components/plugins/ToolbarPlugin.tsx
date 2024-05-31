@@ -227,13 +227,13 @@ export default function ToolbarPlugin() {
                 aria-label="Redo">
                 <i className="format redo" />
             </button>
-            <Divider/>
-            <FontDropDown
-                disabled={!isEditable}
-                style={'font-family'}
-                value={fontFamily}
-                editor={editor}
-            />
+            {/*<Divider/>*/}
+            {/*<FontDropDown*/}
+            {/*    disabled={!isEditable}*/}
+            {/*    style={'font-family'}*/}
+            {/*    value={fontFamily}*/}
+            {/*    editor={editor}*/}
+            {/*/>*/}
             <Divider />
             {/*<FontSize*/}
             {/*    selectionFontSize={fontSize.slice(0, -2)}*/}
