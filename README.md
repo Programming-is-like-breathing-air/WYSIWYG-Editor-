@@ -48,8 +48,10 @@ node importUser.js
 7.Running the Project
 - After following the installation steps, you can start the project using:
 ```bash
-npm run dev
 node index
+```
+```bash
+npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

@@ -17,7 +17,7 @@ client.connect();
 const users = JSON.parse(fs.readFileSync('./users.json', 'utf8'));
 
 // Function to insert task data
-async function insertTask(user) {
+async function insertUser(user) {
     const { id, name, email, password } = user;
     const query = 'INSERT INTO "User" (id, name, email, password) VALUES ($1, $2, $3, $4)';
     const values = [id, name, email, password];
@@ -32,7 +32,7 @@ async function insertTask(user) {
 
 // Insert each task into the database
 users.forEach(user => {
-    insertTask(user).then(() => {
+    insertUser(user).then(() => {
         if (users.indexOf(user) === users.length - 1) {
             client.end();
         }
