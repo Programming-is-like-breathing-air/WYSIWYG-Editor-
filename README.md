@@ -1,5 +1,6 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
+# WYSIWYG Editor
+This is an online text editor template connected to a database. Users can edit text online and store it in the database. It uses the lexical text editing plug-in and the shadcn-style page framework to connect to the prisma database.
 # Getting Started
 These instructions will guide you on how to set up and run the project on your new machine.
 
